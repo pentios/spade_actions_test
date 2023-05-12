@@ -22,7 +22,7 @@ jobs:
       - name: 'Clone Spade repo'
         uses: 'actions/checkout@v3'
         with:
-          path: $HOME
+          path: $HOME/
           submodules: 'recursive'
       
       - name: 'Clone JerryScript'
