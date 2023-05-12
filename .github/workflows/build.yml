@@ -16,34 +16,34 @@ jobs:
       steps:
       - name: 'Setup'
         run: |
-          mkdir $HOME/jerryscript_build
-          mkdir $HOME/raspberrypi
+          mkdir ~/jerryscript_build
+          mkdir ~/raspberrypi
 
       - name: 'Clone Spade repo'
         uses: 'actions/checkout@v3'
         with:
-          path: $HOME/
+          path: ~/
           submodules: 'recursive'
       
       - name: 'Clone JerryScript'
         uses: 'actions/checkout@v3'
         with:
           repository: 'jerryscript-project/jerryscript'
-          path: '$HOME/jerryscript_build'
+          path: '~/jerryscript_build'
           ref: '8ba0d1b6ee5a065a42f3b306771ad8e3c0d819bc' # version 2.4.0
       
       - name: 'Clone pico-sdk'
         uses: 'actions/checkout@v3'
         with:
           repository: 'raspberrypi/pico-sdk'
-          path: '$HOME/raspberrypi'
+          path: '~/raspberrypi'
           submodules: true
       
       - name: 'Clone pico-extras'
         uses: 'actions/checkout@v3'
         with:
           repository: 'raspberrypi/pico-extras'
-          path: '$HOME/raspberrypi'
+          path: '~/raspberrypi'
           submodules: true
       
       - name: 'Build Spade'
@@ -59,6 +59,6 @@ jobs:
         uses: 'actions/upload-artifact@v3'
         with:
           name: 'spade.uf2'
-          path: '$HOME/spade/rpi_build/spade.uf2'
+          path: '~/spade/rpi_build/spade.uf2'
           if-no-files-found: error
           
