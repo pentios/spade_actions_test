@@ -1,0 +1,62 @@
+name: Build Spade UF2
+on: # This workflow should run on...
+  push: # a push...
+    branches: # to one of these branches:
+      - 'main'
+
+defaults:
+  run:
+    shell: 'bash'
+
+jobs:
+  build-uf2:
+      runs-on: 'ubuntu-latest' # Run on the latest stable Ubuntu version
+      steps:
+      - name: 'Setup'
+        run: |
+          mkdir $HOME/jerryscript_build
+          mkdir $HOME/raspberrypi
+
+      - name: 'Clone Spade repo'
+        uses: 'actions/checkout@v3'
+        with:
+          path: $HOME
+          submodules: 'recursive'
+      
+      - name: 'Clone JerryScript'
+        uses: 'actions/checkout@v3'
+        with:
+          repository: 'jerryscript-project/jerryscript'
+          path: '$HOME/jerryscript_build'
+          ref: '8ba0d1b6ee5a065a42f3b306771ad8e3c0d819bc' # version 2.4.0
+      
+      - name: 'Clone pico-sdk'
+        uses: 'actions/checkout@v3'
+        with:
+          repository: 'raspberrypi/pico-sdk'
+          path: '$HOME/raspberrypi'
+          submodules: true
+      
+      - name: 'Clone pico-extras'
+        uses: 'actions/checkout@v3'
+        with:
+          repository: 'raspberrypi/pico-extras'
+          path: '$HOME/raspberrypi'
+          submodules: true
+      
+      - name: 'Build Spade'
+        run: |
+          cd $HOME/spade
+          ./pc/jerry/refresh.sh
+          ./tools/cstringify.py engine.js > engine.js.cstring
+          cmake --preset=rpi
+          cd rpi_build
+          make
+      
+      - name: 'Upload artifact'
+        uses: 'actions/upload-artifact@v3'
+        with:
+          name: 'spade.uf2'
+          path: '$HOME/spade/rpi_build/spade.uf2'
+          if-no-files-found: error
+          
