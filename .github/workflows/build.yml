@@ -3,7 +3,7 @@ on: # This workflow should run on...
   push: # a push...
     branches: # to one of these branches:
       - 'main'
-  workflow-dispatch: # or when manually triggered
+  workflow_dispatch: # or when manually triggered
 
 defaults:
   run:
