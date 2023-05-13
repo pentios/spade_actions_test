@@ -80,6 +80,7 @@ jobs:
       - name: 'Build Spade'
         run: |
           cd ~/spade
+          ./tools/cstringify.py engine.js > engine.js.cstring
           cmake --preset=rpi
           cd rpi_build
           make
